@@ -46,7 +46,7 @@
 	RequiredModules   = @(
 		@{ ModuleName = 'PSFramework'; ModuleVersion = '1.14.457' }
 		@{ ModuleName = 'EntraAuth'; ModuleVersion = '1.8.56' }
-		@{ ModuleName = 'EntraAuth.Azure'; ModuleVersion = '1.1.5' }
+		@{ ModuleName = 'EntraAuth.Azure'; ModuleVersion = '1.1.10' }
 	)
 
 	# Assemblies that must be loaded prior to importing this module
@@ -68,7 +68,21 @@
 
 	# Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
 	FunctionsToExport = @(
-		'*'
+		'Get-EalaColumnTemplate'
+		'Get-EalaDataCollectionEndpoint'
+		'Get-EalaDataCollectionRule'
+		'Get-EalaTable'
+		'Get-EalaWorkspace'
+		'New-EalaDataCollectionEndpoint'
+		'New-EalaDataCollectionRule'
+		'New-EalaTable'
+		'New-EalaWorkspace'
+		'Register-EalaColumnTemplate'
+		'Remove-EalaDataCollectionEndpoint'
+		'Remove-EalaDataCollectionRule'
+		'Remove-EalaTable'
+		'Remove-EalaWorkspace'
+		'Set-EalaWorkspace'
 	)
 
 	# Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
@@ -129,4 +143,3 @@
 	# DefaultCommandPrefix = ''
 
 }
-

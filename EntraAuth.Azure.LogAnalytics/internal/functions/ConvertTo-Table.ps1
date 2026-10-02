@@ -1,4 +1,19 @@
 ﻿function ConvertTo-Table {
+	<#
+	.SYNOPSIS
+		Converts an Azure table resource to a module table object.
+
+	.DESCRIPTION
+		Transforms a raw Azure Log Analytics table resource into an EntraAuth.Azure.LogAnalytics.Table object with normalized subscription, resource group, workspace, schema, retention, and source-object properties.
+
+	.PARAMETER InputObject
+		The raw Azure Log Analytics table resource to convert. Null input produces no output.
+
+	.EXAMPLE
+		PS C:\> $tableResource | ConvertTo-Table
+
+		Converts a raw Azure table resource returned by the Azure API into the module's standard table object.
+	#>
 	[CmdletBinding()]
 	param (
 		[Parameter(ValueFromPipeline = $true)]
@@ -26,6 +41,7 @@
 			
 			Properties           = $InputObject.properties
 			
+			TableName            = $InputObject.name
 			Object               = $InputObject
 		}
 	}
