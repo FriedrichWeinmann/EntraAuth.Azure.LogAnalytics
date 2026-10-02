@@ -1,0 +1,13 @@
+﻿# Module-wide variables go here
+# For example if you want to cache some data, have some module-wide config settings, etc. ... those could go here
+# Example:
+# $script:config = @{ }
+$script:_services = @{
+	Azure        = 'Azure'
+	LogAnalytics = 'LogAnalytics'
+}
+
+$script:_serviceSelector = New-EntraServiceSelector -DefaultServices $script:_services
+
+# Table Templates for easier integration into other modules that need Log Analytics Workspace Tables
+$script:_TableColumnTemplates = @{}
