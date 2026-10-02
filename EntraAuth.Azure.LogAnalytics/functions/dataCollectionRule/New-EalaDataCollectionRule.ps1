@@ -26,7 +26,7 @@
 		[hashtable]
 		$Tags,
 
-		[Validate('Windows', 'Linux')]
+		[ValidateSet('Windows', 'Linux')]
 		[string]
 		$Kind,
 
