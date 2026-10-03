@@ -25,7 +25,7 @@
 		Defaults to: @{}
 
 	.EXAMPLE
-		Get-EalaDataCollectionRule -Subscription 'Production' -ResourceGroup 'rg-monitoring' -Name 'dcr-app-*'
+		PS C:\> Get-EalaDataCollectionRule -Subscription 'Production' -ResourceGroup 'rg-monitoring' -Name 'dcr-app-*'
 
 		Retrieves data collection rules whose names begin with dcr-app- from the specified resource group.
 	#>
@@ -41,7 +41,6 @@
 		[string]
 		$ResourceGroup,
 		
-		[Parameter(ValueFromPipelineByPropertyName = $true)]
 		[string]
 		$Name,
 
@@ -61,7 +60,7 @@
 		if ($Name -and $Name -notmatch '\*' -and $ResourceGroup) {
 			Invoke-EntraRequest -Service $services.Azure -Path "subscriptions/$subscriptionID/resourceGroups/$ResourceGroup/providers/Microsoft.Insights/dataCollectionRules/$Name" -Query @{
 				'api-version' = '2024-03-11'
-			}
+			} | ConvertTo-CollectionRule
 			return
 		}
 
@@ -72,6 +71,6 @@
 
 		Invoke-EntraRequest -Service $services.Azure -Path "subscriptions/$subscriptionID/$($rgString)providers/Microsoft.Insights/dataCollectionRules" -Query @{
 			'api-version' = '2024-03-11'
-		} | Where-Object Name -Like $Name
+		} | Where-Object Name -Like $Name | ConvertTo-CollectionRule
 	}
 }

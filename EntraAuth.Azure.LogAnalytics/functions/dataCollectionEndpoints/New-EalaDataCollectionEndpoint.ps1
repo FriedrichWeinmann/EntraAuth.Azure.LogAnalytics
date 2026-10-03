@@ -144,7 +144,7 @@
 		}
 
 		Invoke-PSFProtectedCommand -Action "Creating Data Collection Endpoint $Name in $subscriptionID > $ResourceGroup" -Target $Name -ScriptBlock {
-			Invoke-EntraRequest @param -Body $body
+			Invoke-EntraRequest @param -Body $body | ConvertTo-Endpoint
 		} -EnableException $true -PSCmdlet $PSCmdlet
 	}
 }

@@ -59,7 +59,7 @@
 		if ($Name -and $Name -notmatch '\*' -and $ResourceGroup) {
 			Invoke-EntraRequest -Service $services.Azure -Path "subscriptions/$subscriptionID/resourceGroups/$ResourceGroup/providers/Microsoft.Insights/dataCollectionEndpoints/$Name" -Query @{
 				'api-version' = '2024-03-11'
-			}
+			} | ConvertTo-Endpoint
 			return
 		}
 
@@ -70,6 +70,6 @@
 
 		Invoke-EntraRequest -Service $services.Azure -Path "subscriptions/$subscriptionID/$($rgString)providers/Microsoft.Insights/dataCollectionEndpoints" -Query @{
 			'api-version' = '2024-03-11'
-		} | Where-Object Name -Like $Name
+		} | Where-Object Name -Like $Name | ConvertTo-Endpoint
 	}
 }

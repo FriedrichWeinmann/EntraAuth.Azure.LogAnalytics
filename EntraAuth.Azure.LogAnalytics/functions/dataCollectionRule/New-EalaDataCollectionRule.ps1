@@ -284,7 +284,7 @@
 		}
 
 		Invoke-PSFProtectedCommand -Action "Creating Data Collection Rule $Name in $subscriptionID > $ResourceGroup" -Target $Name -ScriptBlock {
-			Invoke-EntraRequest @param -Body $body
+			Invoke-EntraRequest @param -Body $body | ConvertTo-CollectionRule
 		} -EnableException $true -PSCmdlet $PSCmdlet
 	}
 }
