@@ -1,4 +1,64 @@
 ﻿function Write-EalaTableEntry {
+	<#
+	.SYNOPSIS
+		Writes records to an Azure Monitor Logs table.
+
+	.DESCRIPTION
+		Sends one or more objects to an Azure Monitor Logs ingestion endpoint through a data collection rule.
+		The target stream can be specified directly or inferred from the table name and the streams defined by the rule.
+		Endpoint, rule, and authentication data can be cached when the command is called repeatedly.
+
+	.PARAMETER Message
+		One or more objects to submit as records. The objects are serialized as a JSON array in the ingestion request.
+
+	.PARAMETER Subscription
+		The name or ID of the Azure subscription containing the data collection endpoint and rule.
+
+	.PARAMETER ResourceGroup
+		The name of the resource group containing the data collection endpoint and rule.
+		When omitted, the command searches the subscription for those resources.
+
+	.PARAMETER DcrName
+		The name of the data collection rule that defines the target stream.
+
+	.PARAMETER DceName
+		The name of the data collection endpoint used to ingest the records.
+
+	.PARAMETER Table
+		The table name used to select a matching stream from the data collection rule when Stream is not specified.
+		If the rule contains only one stream, that stream is selected automatically.
+		Defaults to: <default>
+
+	.PARAMETER Stream
+		The exact data collection rule stream to which the records are written.
+		Use this parameter when the stream cannot be inferred unambiguously from the table name.
+
+	.PARAMETER Cache
+		A reusable hashtable in which authentication tokens, endpoints, rules, and resolved streams are cached.
+		Use the same hashtable across calls to avoid retrieving these values repeatedly.
+		Defaults to: @{}
+
+	.PARAMETER EntraToken
+		An existing EntraAuth access token for https://monitor.azure.com/.
+		When omitted, the command obtains a compatible token from the current Azure connection.
+
+	.PARAMETER ServiceMap
+		Optional hashtable to map service names to specific EntraAuth service instances.
+		Used for advanced scenarios where you want to use something other than the default Azure connection.
+		Example: @{ Azure = 'MyAzure' }
+		This will switch all Azure API calls to use the configuration defined in MyAzure.
+		Defaults to: @{}
+
+	.EXAMPLE
+		PS C:\> Write-EalaTableEntry -Message $records -Subscription 'Production' -ResourceGroup 'rg-monitoring' -DcrName 'dcr-app' -DceName 'dce-app' -Table 'AppLogs_CL'
+
+		Writes the objects in $records to the stream matching the AppLogs_CL table.
+
+	.EXAMPLE
+		PS C:\> Write-EalaTableEntry -Message $record -Subscription 'Production' -ResourceGroup 'rg-monitoring' -DcrName 'dcr-app' -DceName 'dce-app' -Stream 'Custom-AppLogs' -Cache $cache
+
+		Writes a record to an explicitly selected stream and reuses the supplied cache for repeated calls.
+	#>
 	[CmdletBinding(DefaultParameterSetName = 'ByTable')]
 	param (
 		[Parameter(Mandatory = $true)]

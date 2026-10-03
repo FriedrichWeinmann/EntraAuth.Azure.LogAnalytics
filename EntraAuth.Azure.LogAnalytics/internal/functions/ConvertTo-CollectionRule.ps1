@@ -1,4 +1,19 @@
 ﻿function ConvertTo-CollectionRule {
+	<#
+	.SYNOPSIS
+		Converts an Azure data collection rule resource to a module collection rule object.
+
+	.DESCRIPTION
+		Transforms a raw Azure Monitor data collection rule resource into an EntraAuth.Azure.LogAnalytics.DataCollectionRule object with normalized streams, destinations, data flows, status, timestamps, and source-object properties.
+
+	.PARAMETER InputObject
+		The raw Azure Monitor data collection rule resource to convert. Null input produces no output.
+
+	.EXAMPLE
+		PS C:\> $ruleResource | ConvertTo-CollectionRule
+
+		Converts a raw Azure data collection rule resource into the module's standard collection rule object.
+	#>
 	[CmdletBinding()]
 	param (
 		[Parameter(ValueFromPipeline = $true)]

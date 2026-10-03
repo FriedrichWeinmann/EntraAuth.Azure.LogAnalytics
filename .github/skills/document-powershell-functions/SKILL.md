@@ -23,7 +23,7 @@ Help created for a previously undocumented function contains only these sections
 
 - `.SYNOPSIS`: one sentence summarizing what the function does.
 - `.DESCRIPTION`: the command's purpose, behavior, filtering or output details, and other facts a user needs.
-- `.PARAMETER <Name>`: one entry for every declared parameter, explaining its use. State an explicitly assigned default value. For switches, describe the behavior when specified and, when useful, the behavior when omitted.
+- `.PARAMETER <Name>`: one entry for every declared parameter, explaining its use. Also generate help for `-WhatIf` and `-Confirm` if the command implements ShouldProcess.
 - `.EXAMPLE`: at least one example for every parameter set. Put the command first, followed by a blank line and prose explaining what executing it does.
 
 Do not add `.NOTES`, `.LINK`, `.INPUTS`, `.OUTPUTS`, or any other unrequested help section.
@@ -32,12 +32,13 @@ Do not add `.NOTES`, `.LINK`, `.INPUTS`, `.OUTPUTS`, or any other unrequested he
 
 - Write for users of the command, not maintainers of its implementation.
 - Keep the synopsis to one direct sentence.
-- Keep parameter descriptions concise. Do not narrate parameter-set selection unless that fact helps a user invoke the command correctly.
+- For Parameters listed in the help `Parameter Help Override` section below, do not invent your own help text and use the override text instead.
+- Keep parameter descriptions concise. Do not narrate parameter-set selection unless that fact helps a user invoke the command correctly. Do not narrate whether it accepts input from the pipeline.
 - Parameters that have a default value should explain this in a separate line with `Defaults to: {{value}}`. This does not apply to Switch parameters.
 - Use concrete, realistic values in examples.
 - Use `PS C:\>` as the example prompt.
 - Explain the observable result of each example rather than merely repeating its syntax.
-- Follow established wording for recurring module parameters. For example, when a module uses a service mapping parameter, prefer its existing multiline explanation over inventing a new variant.
+- Follow established wording for recurring parameters. For example, when most commands of a module use a `-ServiceMap`` parameter, prefer its existing documentation text and style over inventing a new variant.
 - Match the indentation, line endings, spelling, terminology, and voice of nearby manually maintained help.
 
 ## Procedure
@@ -61,9 +62,7 @@ Do not add `.NOTES`, `.LINK`, `.INPUTS`, `.OUTPUTS`, or any other unrequested he
    - amend a parameter description only when needed to document a newly introduced explicit default;
    - do not reorder, normalize, or rewrite already documented sections.
 7. Place a new help block immediately beneath the line containing the `function` keyword and above attributes such as `[CmdletBinding()]` and the `param` block. Insert missing sections into an existing block without moving that block.
-8. Re-read the edited help against the current parameter block and parameter sets. Confirm every declared parameter is covered and every parameter set has at least one valid example.
-9. Parse each updated file independently with the PowerShell parser. Report and fix syntax errors introduced by the documentation edit.
-10. Report which functions changed, which missing coverage was added, and the syntax result for every updated file.
+8. After completing all edits, run `.\tests\pester.ps1 -TestFunctions $false -Include Help*` to verify edits. A Test run without errors implies success. In case of error, use the test results to identify which functions' help needs fixing, fix the issue and test again.
 
 ## Parameter-Set Coverage
 
@@ -81,6 +80,35 @@ Do not add `.NOTES`, `.LINK`, `.INPUTS`, `.OUTPUTS`, or any other unrequested he
 - Do not document nested helper functions unless the user explicitly asks for them.
 - Do not modify function behavior while documenting it.
 - Do not change files that require no documentation additions.
+
+## Parameter Help Override
+
+When documenting the following parameters, always use the override text provided under the parameter's section, rather than inventing your own text.
+
+### WhatIf
+
+```text
+If this switch is enabled, no actions are performed but informational messages will be displayed that explain what would happen if the command were to run.
+```
+
+### Confirm
+
+```text
+If this switch is enabled, you will be prompted for confirmation before executing any operations that change state.
+```
+
+### Cmdlet
+
+```text
+The $PSCmdlet variable of the calling command, used to ensure errors and messages happen within the scope of the caller, hiding this internal helper command from the user.
+```
+
+### EnableException
+
+```text
+This parameters disables user-friendly warnings and enables the throwing of exceptions.
+This is less user friendly, but allows catching exceptions in calling scripts.
+```
 
 ## Syntax Validation
 
@@ -101,4 +129,6 @@ if ($errors.Count) {
 }
 ```
 
-Validation must run after the final edit to each updated file. Do not claim syntax correctness based only on editor diagnostics or visual review.
+Validation must run after the final edit of all updated files in scope.
+Do not run validation earlz, before going through all files.
+Do not claim syntax correctness based only on editor diagnostics or visual review.
