@@ -115,7 +115,6 @@ New-EaaRoleAssignment -ResourceID $dataCollectionRule.id -RoleName 'Monitoring M
 ```powershell
 # 0: Defines
 $subscription = 'e2b198e0-a309-4c91-b53e-4e36184bce9a'
-$rgName = 'rg_demo'
 $laWorkspace = 'pslogging'
 $laTable = 'entra_scripting'
 $dcrName = "$($laWorkspace)-$($laTable)-DCR"
