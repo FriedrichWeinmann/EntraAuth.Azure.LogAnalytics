@@ -77,11 +77,10 @@
 		A hashtable defining the rule SKU.
 		https://learn.microsoft.com/en-us/rest/api/monitor/data-collection-rules/create?view=rest-monitor-2024-03-11&tabs=HTTP#datacollectionruleresourcesku
 
-	.PARAMETER WhatIf
-		If this switch is enabled, no actions are performed but informational messages will be displayed that explain what would happen if the command were to run.
-
-	.PARAMETER Confirm
-		If this switch is enabled, you will be prompted for confirmation before executing any operations that change state.
+	.PARAMETER FilePatterns
+		What File Patterns to look for on a Monitoring Agent.
+		Has no effect on messages/data sent directly, such as through the Write-EalaTableEntry command.
+		Defaults to: C:\Test.json
 
 	.PARAMETER ServiceMap
 		Optional hashtable to map service names to specific EntraAuth service instances.
@@ -89,6 +88,12 @@
 		Example: @{ Azure = 'MyAzure' }
 		This will switch all Azure API calls to use the configuration defined in MyAzure.
 		Defaults to: @{}
+	
+	.PARAMETER WhatIf
+		If this switch is enabled, no actions are performed but informational messages will be displayed that explain what would happen if the command were to run.
+
+	.PARAMETER Confirm
+		If this switch is enabled, you will be prompted for confirmation before executing any operations that change state.
 
 	.EXAMPLE
 		PS C:\> New-EalaDataCollectionRule -Subscription 'Production' -ResourceGroup 'rg-monitoring' -WorkspaceName 'law-prod' -Name 'dcr-app' -Location 'eastus' -Kind Windows
@@ -156,6 +161,9 @@
 
 		[hashtable]
 		$Sku,
+
+		[string[]]
+		$FilePatterns = @('C:\test.json'),
 
 		[ServiceTransformAttribute()]
 		[hashtable]
@@ -245,7 +253,7 @@
 				if (-not $logFiles) { $logFiles = @() }
 				$logFiles += @{
 					streams      = @($streamname)
-					filePatterns = @('C:\test.json')
+					filePatterns = $FilePatterns
 					format       = 'json'
 					name         = $streamname
 				}

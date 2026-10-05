@@ -25,9 +25,9 @@
 		$streams = @{}
 		foreach ($streamName in $InputObject.properties.streamDeclarations.PSObject.Properties.Name) {
 			$streams[$streamName] = [PSCustomObject]@{
-				Name     = $streamName
-				Colummns = $InputObject.properties.streamDeclarations.$streamName.columns
-				Object   = $InputObject.properties.streamDeclarations.$streamName
+				Name    = $streamName
+				Columns = $InputObject.properties.streamDeclarations.$streamName.columns
+				Object  = $InputObject.properties.streamDeclarations.$streamName
 			}
 		}
 

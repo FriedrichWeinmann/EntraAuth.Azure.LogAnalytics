@@ -121,6 +121,7 @@
 				}
 			}
 		}
+		if ($Description) { $body.properties.description = $Description }
 		if ($Kind) {
 			$body.kind = $Kind
 		}

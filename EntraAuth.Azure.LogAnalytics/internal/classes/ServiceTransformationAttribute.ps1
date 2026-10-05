@@ -18,6 +18,6 @@
 			if ($InputData.LogAnalytics) { $map.LogAnalytics = $InputData.LogAnalytics }
 			return $map
 		}
-		return @{ Graph = $InputData -as [string] }
+		return @{ Azure = $InputData -as [string] }
 	}
 }

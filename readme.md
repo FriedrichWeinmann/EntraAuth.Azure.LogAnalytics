@@ -105,3 +105,25 @@ $dataCollectionRule = $workspace | New-EalaDataCollectionRule -TableName $laTabl
 New-EaaRoleAssignment -ResourceID $dataCollectionRule.id -RoleName 'Monitoring Metrics Publisher' -PrincipalID 'fred@contoso.com' -PrincipalType User -Description 'Because'
 New-EaaRoleAssignment -ResourceID $dataCollectionRule.id -RoleName 'Monitoring Metrics Publisher' -PrincipalID 'Entra - PowerShell Script Logging' -PrincipalType ServicePrincipal -Description 'Scripts need it'
 ```
+
+> Note: The only thing PSFramework specific are the table settings in Step 4. This is where you define the ultimate structure of the log.
+
+### Sending Data
+
+> Note: This assumes you created the structure with the snippet above
+
+```powershell
+# 0: Defines
+$subscription = 'e2b198e0-a309-4c91-b53e-4e36184bce9a'
+$rgName = 'rg_demo'
+$laWorkspace = 'pslogging'
+$laTable = 'entra_scripting'
+$dcrName = "$($laWorkspace)-$($laTable)-DCR"
+$dceName = "$($laWorkspace)-$($laTable)-DCE" -replace '_','-'
+
+# 1: Connect
+Connect-EntraService -Service Azure -ClientID Azure
+
+# 2: Send Data
+Write-EalaTableEntry -Subscription $subscription -DcrName $dcrName -DceName $dceName -Message (Get-PSFMessage)
+```
