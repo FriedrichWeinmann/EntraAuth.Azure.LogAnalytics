@@ -136,7 +136,7 @@
 		[Parameter(Mandatory = $true, ParameterSetName = 'Columns')]
 		[PsfValidateScript('EntraAuth.Azure.LogAnalytics.TableColumnValidation')]
 		[hashtable[]]
-		$Columns = @(),
+		$Columns,
 		
 		[Parameter(Mandatory = $true, ParameterSetName = 'Template')]
 		[PsfArgumentCompleter('EntraAuth.Azure.LogAnalytics.TableColumnTemplate')]

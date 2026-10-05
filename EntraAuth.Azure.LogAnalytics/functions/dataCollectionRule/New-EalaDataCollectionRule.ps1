@@ -288,7 +288,7 @@
 			Query       = @{
 				'api-version'       = '2024-03-11'
 				ignoreMissingTables = $true
-			} 
+			}
 		}
 
 		Invoke-PSFProtectedCommand -Action "Creating Data Collection Rule $Name in $subscriptionID > $ResourceGroup" -Target $Name -ScriptBlock {

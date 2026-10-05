@@ -141,7 +141,7 @@
 			ContentType = 'application/json'
 			Query       = @{
 				'api-version' = '2024-03-11'
-			} 
+			}
 		}
 
 		Invoke-PSFProtectedCommand -Action "Creating Data Collection Endpoint $Name in $subscriptionID > $ResourceGroup" -Target $Name -ScriptBlock {
