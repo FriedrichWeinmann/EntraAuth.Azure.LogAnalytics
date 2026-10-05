@@ -122,7 +122,7 @@
 			# IconUri = ''
 
 			# ReleaseNotes of this module
-			ReleaseNotes = 'https://github.com/FriedrichWeinmann/EntraAuth.Azure.LogAnalytics/blob/main/changelog.md'
+			ReleaseNotes = 'https://github.com/FriedrichWeinmann/EntraAuth.Azure.LogAnalytics/blob/master/changelog.md'
 
 			# Prerelease string of this module
 			# Prerelease = ''
