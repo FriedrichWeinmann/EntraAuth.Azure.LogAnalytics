@@ -113,7 +113,7 @@
 			Tags         = @('EntraAuth', 'Azure', 'LogAnalytics', 'PSMDBuild_Project', 'PSMDBuild_Action')
 
 			# A URL to the license for this module.
-			LicenseUri   = 'https://github.com/FriedrichWeinmann/EntraAuth.Azure.LogAnalytics/blob/main/LICENSE'
+			LicenseUri   = 'https://github.com/FriedrichWeinmann/EntraAuth.Azure.LogAnalytics/blob/master/LICENSE'
 
 			# A URL to the main website for this project.
 			ProjectUri   = 'https://github.com/FriedrichWeinmann/EntraAuth.Azure.LogAnalytics'
@@ -122,7 +122,7 @@
 			# IconUri = ''
 
 			# ReleaseNotes of this module
-			ReleaseNotes = 'https://github.com/FriedrichWeinmann/EntraAuth.Azure.LogAnalytics/blob/main/changelog.md'
+			ReleaseNotes = 'https://github.com/FriedrichWeinmann/EntraAuth.Azure.LogAnalytics/blob/master/changelog.md'
 
 			# Prerelease string of this module
 			# Prerelease = ''
