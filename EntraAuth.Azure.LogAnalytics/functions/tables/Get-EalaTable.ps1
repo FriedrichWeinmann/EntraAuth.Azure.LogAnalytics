@@ -16,6 +16,15 @@
 	.PARAMETER WorkspaceName
 		The name of the Log Analytics workspace containing the tables.
 
+	.PARAMETER Type
+		What kind of table to return:
+
+		- Custom: Only return tables that were NOT defined by Microsoft
+		- Microsoft: Only return tables that were defined by Microsoft
+		- All: Return all tables, no matter their source.
+
+		Defaults to: Custom
+
 	.PARAMETER Name
 		The table name or wildcard pattern to retrieve.
 		Defaults to: *
@@ -44,6 +53,7 @@
 	param (
 		[Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
 		[PsfArgumentCompleter('EntraAuth.Azure.Subscription')]
+		[Alias('SubscriptionID')]
 		[string]
 		$Subscription,
 
@@ -57,9 +67,12 @@
 		[string]
 		$WorkspaceName,
 
-		[Parameter(ValueFromPipelineByPropertyName = $true)]
 		[string]
 		$Name = '*',
+
+		[ValidateSet('Custom', 'Microsoft', 'All')]
+		[string]
+		$Type = 'Custom',
 
 		[switch]
 		$Literal,
@@ -78,12 +91,18 @@
 
 		Invoke-EntraRequest -Service $services.Azure -Path "subscriptions/$subscriptionID/resourceGroups/$ResourceGroup/providers/Microsoft.OperationalInsights/workspaces/$WorkspaceName/tables/" -Query @{
 			'api-version' = '2026-03-01'
-		} | ConvertTo-Table | Where-Object {
-			$_.Name -like $Name -or
+		} | Where-Object {
 			(
-				-not $Literal -and
-				$_.Name -like "$($Name)_CL"
+				($_.properties.schema.tableType -eq 'Microsoft' -and $Type -ne 'Custom') -or
+				($_.properties.schema.tableType -eq 'CustomLog' -and $Type -ne 'Microsoft')
+			) -and
+			(
+				$_.name -like $Name -or
+				(
+					-not $Literal -and
+					$_.name -like "$($Name)_CL"
+				)
 			)
-		}
+		} | ConvertTo-Table
 	}
 }

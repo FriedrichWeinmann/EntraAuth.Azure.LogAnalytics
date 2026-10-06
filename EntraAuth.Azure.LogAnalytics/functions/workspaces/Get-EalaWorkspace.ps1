@@ -36,6 +36,7 @@
 	param (
 		[Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true, ParameterSetName = 'Search')]
 		[PsfArgumentCompleter('EntraAuth.Azure.Subscription')]
+		[Alias('SubscriptionID')]
 		[string]
 		$Subscription,
 		
