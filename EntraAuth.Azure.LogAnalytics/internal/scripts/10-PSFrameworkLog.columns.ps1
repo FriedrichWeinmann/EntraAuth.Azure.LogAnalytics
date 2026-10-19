@@ -11,6 +11,10 @@
 			type = 'datetime'
 		}
 		@{
+			name = 'Timestamp'
+			type = 'datetime'
+		}
+		@{
 			name = 'Level'
 			type = 'string'
 		}

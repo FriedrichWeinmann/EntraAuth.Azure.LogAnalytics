@@ -1,5 +1,9 @@
 ﻿# Changelog
 
+## 1.0.4 (2026-10-19)
+
++ Fix: Column Template PSFramework - added missing Timestamp column
+
 ## 1.0.3 (2026-10-06)
 
 + Upd: Get-EalaTable - added "-Type" parameter to allow selecting result types between custom tables and MS Tables
